@@ -9,6 +9,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import Header from "./components/Header";
+import CalenderHeader from "./components/calender-header/Header";
 import Sidebar from "./components/Sidebar";
 import MiniCalendar from "./components/MiniCalendar";
 import CalendarView from "./components/CalendarView";
@@ -17,7 +18,7 @@ import { SidebarItem, ViewMode } from "./types";
 
 const App = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [currentDate, setCurrentDate] = useState(new Date(2024, 5, 1)); // June 2024
+  const [currentDate, setCurrentDate] = useState(new Date(2024, 5, 1));
   const [viewMode, setViewMode] = useState<ViewMode>("Week");
 
   const calendarData = useMemo(
@@ -35,7 +36,7 @@ const App = () => {
     { icon: Settings, label: "Settings" },
   ];
 
-  const handleNavigateMonth = (direction) => {
+  const handleNavigateMonth = (direction: number) => {
     setCurrentDate((prev) => {
       const newDate = new Date(prev);
       newDate.setMonth(prev.getMonth() + direction);
@@ -53,6 +54,8 @@ const App = () => {
           onToggle={() => setSidebarOpen(!sidebarOpen)}
           items={sidebarItems}
         />
+
+        {/* <CalenderHeader /> */}
 
         <main className="flex-1 flex gap-6 p-6 overflow-hidden">
           <MiniCalendar

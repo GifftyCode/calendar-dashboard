@@ -1,4 +1,3 @@
-// utils/calendar.ts
 import { CalendarData, BookingData } from "../types";
 
 export const monthNames = [
