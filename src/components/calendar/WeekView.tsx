@@ -1,13 +1,6 @@
 import { cn } from "../../utils/cn";
 import type { Event } from "../../types";
 
-// interface WeekViewProps {
-//   currentDate: Date;
-//   events: Event[];
-//   onDateClick: (date: Date) => void;
-//   onEventClick: (event: Event) => void;
-// }
-
 const WeekView = ({
   currentDate,
   events,
