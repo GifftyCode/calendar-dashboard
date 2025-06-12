@@ -1,19 +1,44 @@
-// types/index.ts
-export interface Booking {
+export interface Event {
+  id: string;
+  title: string;
+  date: string;
   time: string;
-  type: string;
+  description?: string;
+  location?: string;
+  attendees?: string[];
   color: string;
 }
 
-export interface BookingData {
-  [date: string]: Booking[];
+export interface CalendarProps {
+  currentDate: Date;
+  events: Event[];
+  onDateClick: (date: Date) => void;
+  onEventClick: (event: Event) => void;
+  view: "month" | "week";
 }
 
-export interface CalendarData {
-  dates: Date[];
-  today: Date;
-  month: number;
-  year: number;
+export interface ScheduledEvent {
+  id: string;
+  title: string;
+  date: string | Date;
+  color?: string;
+  description?: string;
+  time?: string;
+}
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
+  onClick?: () => void;
+  variant?: "default" | "ghost" | "outline" | "destructive";
+  size?: "default" | "sm" | "lg" | "icon";
+  className?: string;
+}
+
+export interface DialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  children: React.ReactNode;
 }
 
 export interface SidebarItem {
@@ -23,27 +48,34 @@ export interface SidebarItem {
   hasSubmenu?: boolean;
 }
 
-export type ViewMode = "Week" | "Month";
-
-export interface WeekViewProps {
-  currentDate: Date;
-  bookings: BookingData;
-  timeSlots: string[];
-}
-
-export interface MiniCalendarProps {
-  currentDate: Date;
-  onNavigateMonth: (direction: number) => void;
-  bookings: BookingData;
-  calendarData: CalendarData;
-}
-
 export interface SidebarProps {
+  onAddEvent: () => void;
+  currentDate: Date;
+  onDateChange: (date: Date) => void;
+  view: "month" | "week";
+  onViewChange: (view: "month" | "week") => void;
+  scheduledEvents?: ScheduledEvent[];
+}
+
+export interface PageSidebarProps {
   isOpen: boolean;
   onToggle: () => void;
-  items: SidebarItem[];
+  items: { icon: React.ElementType; label: string; hasSubmenu?: boolean }[];
 }
 
-export interface HeaderProps {
-  onToggleSidebar: () => void;
+export interface DefaultLayoutProps {
+  children: React.ReactNode;
+
+  sidebarItems: {
+    icon: React.ElementType;
+    label: string;
+    hasSubmenu?: boolean;
+  }[];
+}
+export interface SidebarProps {
+  onAddEvent: () => void;
+  currentDate: Date;
+  onDateChange: (date: Date) => void;
+  onLabelClick: (color: string) => void;
+  events: Event[];
 }

@@ -1,80 +1,158 @@
-import React, { useState, useMemo } from "react";
-import {
-  Home,
-  Users,
-  Settings,
-  Calendar,
-  BarChart3,
-  CreditCard,
-  TrendingUp,
-} from "lucide-react";
-import Header from "./components/Header";
-import CalenderHeader from "./components/calender-header/Header";
-import Sidebar from "./components/Sidebar";
-import MiniCalendar from "./components/MiniCalendar";
-import CalendarView from "./components/CalendarView";
-import { generateCalendarData, sampleBookings } from "./utils/calendar";
-import { SidebarItem, ViewMode } from "./types";
+import { useState } from "react";
+import { Calendar, Users, Settings } from "lucide-react";
+import Sidebar from "./components/calendar/Sidebar";
+import MiniSidebar from "./components/calendar/MiniSidebar";
+import DefaultLayout from "./layouts/DefaultLayout";
+import type { Event } from "./types";
+import EventDialog from "./components/calendar/EventDialog";
+import CalendarHeader from "./components/calendar/CalendarHeader";
+import MonthView from "./components/calendar/MonthView";
+import WeekView from "./components/calendar/WeekView"; // Make sure to import WeekView
 
 const App = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [currentDate, setCurrentDate] = useState(new Date(2024, 5, 1));
-  const [viewMode, setViewMode] = useState<ViewMode>("Week");
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [view, setView] = useState<"month" | "week">("month");
+  const [events, setEvents] = useState<Event[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<Event | undefined>();
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
-  const calendarData = useMemo(
-    () => generateCalendarData(currentDate),
-    [currentDate]
-  );
+  const generateId = () => {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  };
 
   const sidebarItems = [
-    { icon: Home, label: "Dashboard" },
-    { icon: Calendar, label: "Calendar", active: true },
-    { icon: Users, label: "Customers" },
-    { icon: BarChart3, label: "Analytics" },
-    { icon: CreditCard, label: "Payments" },
-    { icon: TrendingUp, label: "Growth", hasSubmenu: true },
-    { icon: Settings, label: "Settings" },
+    { icon: Calendar, label: "Home", hasSubmenu: true },
+    { icon: Users, label: "App Components", hasSubmenu: true },
+    { icon: Settings, label: "User Setup", hasSubmenu: true },
+    { icon: Calendar, label: "V.R.S", hasSubmenu: true },
+    { icon: Users, label: "App User Management", hasSubmenu: true },
+    { icon: Settings, label: "Booking & Order Management", hasSubmenu: true },
+    { icon: Calendar, label: "Marketing & Promotions", hasSubmenu: true },
+    { icon: Settings, label: "Advanced Analytics", hasSubmenu: true },
+    { icon: Users, label: "Audit Trail", hasSubmenu: true },
+    { icon: Settings, label: "Transactions", hasSubmenu: true },
   ];
 
-  const handleNavigateMonth = (direction: number) => {
-    setCurrentDate((prev) => {
-      const newDate = new Date(prev);
-      newDate.setMonth(prev.getMonth() + direction);
-      return newDate;
-    });
+  const scheduledEvents = [
+    {
+      id: "1",
+      title: "Team Meeting",
+      date: new Date(2025, 5, 15),
+      color: "bg-blue-500",
+    },
+    {
+      id: "2",
+      title: "Project Deadline",
+      date: new Date(2025, 5, 20),
+      color: "bg-red-500",
+    },
+  ];
+
+  const handleAddEvent = () => {
+    setSelectedEvent(undefined);
+    setSelectedDate(currentDate);
+    setIsDialogOpen(true);
+  };
+
+  const handleEventClick = (event: Event) => {
+    setSelectedEvent(event);
+    setSelectedDate(undefined);
+    setIsDialogOpen(true);
+  };
+
+  const handleDateClick = (date: Date) => {
+    setCurrentDate(date);
+    setSelectedDate(date);
+    setSelectedEvent(undefined);
+    setIsDialogOpen(true);
+  };
+
+  const handleSaveEvent = (eventData: Omit<Event, "id">) => {
+    if (selectedEvent) {
+      setEvents((prev: Event[]) =>
+        prev.map((event: Event) =>
+          event.id === (selectedEvent as Event).id
+            ? { ...eventData, id: (selectedEvent as Event).id }
+            : event
+        )
+      );
+    } else {
+      const newEvent: Event = {
+        ...eventData,
+        id: generateId(),
+      };
+      setEvents((prev) => [...prev, newEvent]);
+    }
+  };
+
+  const handleDeleteEvent = (eventId: string) => {
+    setEvents((prev) => prev.filter((event) => event.id !== eventId));
+  };
+
+  const handleLabelClick = (color: string) => {
+    const filteredEvents = events.filter((event) => event.color === color);
+    if (filteredEvents.length > 0) {
+      const firstEvent = filteredEvents[0];
+      const eventDate = new Date(firstEvent.date);
+      setCurrentDate(eventDate);
+    }
   };
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
-      <Header onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
-
-      <div className="flex-1 flex overflow-hidden">
+    <DefaultLayout sidebarItems={sidebarItems}>
+      <div className="flex h-screen bg-gray-50">
         <Sidebar
-          isOpen={sidebarOpen}
-          onToggle={() => setSidebarOpen(!sidebarOpen)}
-          items={sidebarItems}
+          onAddEvent={handleAddEvent}
+          currentDate={currentDate}
+          onDateChange={setCurrentDate}
+          events={events}
+          onLabelClick={handleLabelClick}
+          view={view}
+          scheduledEvents={scheduledEvents}
+          onViewChange={setView}
         />
 
-        {/* <CalenderHeader /> */}
-
-        <main className="flex-1 flex gap-6 p-6 overflow-hidden">
-          <MiniCalendar
+        <div className="flex-1 flex flex-col">
+          <CalendarHeader
             currentDate={currentDate}
-            onNavigateMonth={handleNavigateMonth}
-            bookings={sampleBookings}
-            calendarData={calendarData}
+            onDateChange={setCurrentDate}
+            view={view}
+            onViewChange={setView}
           />
 
-          <CalendarView
-            currentDate={currentDate}
-            viewMode={viewMode}
-            setViewMode={setViewMode}
-            onNavigateMonth={handleNavigateMonth}
-            bookings={sampleBookings}
-          />
-        </main>
+          <div className="flex-1 p-6 overflow-auto">
+            {view === "month" ? (
+              <MonthView
+                currentDate={currentDate}
+                events={events}
+                onDateClick={handleDateClick}
+                onEventClick={handleEventClick}
+              />
+            ) : (
+              <WeekView
+                currentDate={currentDate}
+                events={events}
+                onDateClick={handleDateClick}
+                onEventClick={handleEventClick}
+              />
+            )}
+          </div>
+        </div>
+
+        <MiniSidebar />
       </div>
-    </div>
+
+      <EventDialog
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onSave={handleSaveEvent}
+        onDelete={handleDeleteEvent}
+        event={selectedEvent}
+        selectedDate={selectedDate}
+      />
+    </DefaultLayout>
   );
 };
+
 export default App;
