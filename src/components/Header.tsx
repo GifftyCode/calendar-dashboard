@@ -2,7 +2,7 @@ import { Bell, ChevronDown } from "lucide-react";
 
 const Header = () => {
   return (
-    <header className="bg-white shadow-xl px-6 py-4">
+    <header className="bg-white shadow-4xl px-6 py-4 border-b border-gray-200">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4"></div>
 

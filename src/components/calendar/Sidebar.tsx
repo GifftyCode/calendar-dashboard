@@ -16,8 +16,6 @@ const Sidebar = ({
   events: Event[];
   onLabelClick: (color: string) => void;
 }) => {
-  // Define the Event type with a color property
-
   const formatSelectedDate = (date: Date) => {
     const day = date.getDate();
     const month = date.toLocaleDateString("en-US", { month: "short" });
@@ -25,14 +23,13 @@ const Sidebar = ({
     return `${day} ${month} ${year}`;
   };
 
-  // Calculate event statistics
   const getEventStats = () => {
     const stats = {
-      "#ef4444": 0, // Red - Active
-      "#f97316": 0, // Orange - Pending
-      "#10b981": 0, // Green - Completed
-      "#6b7280": 0, // Gray - Rescheduled
-      "#8b5cf6": 0, // Purple - Cancelled
+      "#ef4444": 0,
+      "#f97316": 0,
+      "#10b981": 0,
+      "#6b7280": 0,
+      "#8b5cf6": 0,
     };
 
     events.forEach((event) => {
@@ -85,7 +82,7 @@ const Sidebar = ({
         </div>
         <Button
           onClick={onAddEvent}
-          className="p-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg"
+          className="p-2 bg-gray-800 hover:bg-gray-600 text-white rounded-lg"
         >
           <Plus className="h-5 w-5 font-bold" />
         </Button>

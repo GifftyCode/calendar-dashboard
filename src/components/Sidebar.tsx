@@ -31,7 +31,7 @@ const Sidebar: React.FC<PageSidebarProps> = ({ isOpen, items }) => {
     <div
       className={`${
         isOpen ? "w-80" : "w-16"
-      } bg-white shadow-xl rounded-lg transition-all duration-300 flex flex-col border border-gray-200`}
+      } bg-white shadow-2xl rounded-lg transition-all duration-300 flex flex-col `}
     >
       <div className="p-6 ">
         <div className="flex items-center gap-4">

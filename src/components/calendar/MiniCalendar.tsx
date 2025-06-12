@@ -62,7 +62,7 @@ const MiniCalendar = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 ">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-bold text-white">
           {monthNames[month]} <span className="text-red-500">{year}</span>
@@ -110,7 +110,7 @@ const MiniCalendar = ({
             >
               {day}
               {hasEventOnDay && (
-                <div className="absolute top-1 right-1 flex space-x-0.5">
+                <div className="absolute bottom-1 left-1 flex space-x-0.5">
                   <span className="w-1 h-1 bg-red-500 rounded-full"></span>
                   <span className="w-1 h-1 bg-yellow-500 rounded-full"></span>
                   <span className="w-1 h-1 bg-green-500 rounded-full"></span>

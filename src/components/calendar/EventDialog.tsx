@@ -54,11 +54,10 @@ const EventDialog = ({
 
   const colors = [
     { name: "Red", value: "#ef4444" },
-    { name: "Blue", value: "#3b82f6" },
+    { name: "Blue", value: "#f97316" },
     { name: "Green", value: "#10b981" },
-    { name: "Purple", value: "#8b5cf6" },
-    { name: "Orange", value: "#f97316" },
-    { name: "Pink", value: "#ec4899" },
+    { name: "Purple", value: "#6b7280" },
+    { name: "Orange", value: "#8b5cf6" },
   ];
 
   return (

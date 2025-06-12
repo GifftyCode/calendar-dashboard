@@ -33,7 +33,7 @@ const WeekView = ({
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border">
+    <div className="bg-white rounded-lg ">
       <div className="grid grid-cols-8 border-b">
         <div className="p-4 text-sm font-medium text-gray-500">Time</div>
         {weekDates.map((date, index) => (

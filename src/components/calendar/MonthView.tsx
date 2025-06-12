@@ -57,7 +57,7 @@ const MonthView = ({
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-xl  overflow-hidden">
       <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-200">
         {weekDays.map((day) => (
           <div

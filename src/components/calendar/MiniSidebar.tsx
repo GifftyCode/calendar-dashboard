@@ -35,7 +35,7 @@ const MiniSidebar: React.FC = () => {
   ];
 
   return (
-    <div className="w-32 bg-white  p-2 pt-64 space-y-8">
+    <div className="w-44 bg-white  p-2 pt-64 space-y-8">
       {bookingStatuses.map((status, index) => (
         <div key={index} className="flex items-start space-x-3">
           <div className={`w-4 h-4 ${status.color} mt-1 flex-shrink-0`}></div>
