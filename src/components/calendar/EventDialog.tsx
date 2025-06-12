@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { cn } from "../../utils/cn";
-import Button from "../ui/Button";
+import Button from "../../components/ui/Button";
 import Input from "../ui/input";
 import Dialog from "../ui/Dialog";
 import DialogHeader from "../ui/DialogHeader";
