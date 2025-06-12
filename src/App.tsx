@@ -7,7 +7,7 @@ import type { Event } from "./types";
 import EventDialog from "./components/calendar/EventDialog";
 import CalendarHeader from "./components/calendar/CalendarHeader";
 import MonthView from "./components/calendar/MonthView";
-import WeekView from "./components/calendar/WeekView"; // Make sure to import WeekView
+import WeekView from "./components/calendar/WeekView";
 
 const App = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
