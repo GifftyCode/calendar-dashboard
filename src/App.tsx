@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Calendar, Users, Settings } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Calendar, Users, Settings, Menu, X } from "lucide-react";
 import Sidebar from "./components/calendar/Sidebar";
 import MiniSidebar from "./components/calendar/MiniSidebar";
 import DefaultLayout from "./layouts/DefaultLayout";
@@ -9,6 +9,8 @@ import CalendarHeader from "./components/calendar/CalendarHeader";
 import MonthView from "./components/calendar/MonthView";
 import WeekView from "./components/calendar/WeekView";
 
+const STORAGE_KEY = "calendar_events";
+
 const App = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<"month" | "week">("month");
@@ -16,6 +18,29 @@ const App = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | undefined>();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  // Load events from localStorage on component mount
+  useEffect(() => {
+    try {
+      const savedEvents = localStorage.getItem(STORAGE_KEY);
+      if (savedEvents) {
+        const parsedEvents = JSON.parse(savedEvents);
+        setEvents(parsedEvents);
+      }
+    } catch (error) {
+      console.error("Error loading events from localStorage:", error);
+    }
+  }, []);
+
+  // Save events to localStorage whenever events state changes
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
+    } catch (error) {
+      console.error("Error saving events to localStorage:", error);
+    }
+  }, [events]);
 
   const generateId = () => {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -38,6 +63,7 @@ const App = () => {
     setSelectedEvent(undefined);
     setSelectedDate(currentDate);
     setIsDialogOpen(true);
+    setIsMobileSidebarOpen(false);
   };
 
   const handleEventClick = (event: Event) => {
@@ -82,20 +108,54 @@ const App = () => {
       const eventDate = new Date(firstEvent.date);
       setCurrentDate(eventDate);
     }
+    setIsMobileSidebarOpen(false);
   };
 
   return (
     <DefaultLayout sidebarItems={sidebarItems}>
-      <div className="flex h-screen bg-gray-50">
-        <Sidebar
-          onAddEvent={handleAddEvent}
-          currentDate={currentDate}
-          onDateChange={setCurrentDate}
-          events={events}
-          onLabelClick={handleLabelClick}
-        />
+      <div className="flex h-screen bg-gray-50 overflow-hidden">
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+          className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-black text-white rounded-lg shadow-lg"
+        >
+          {isMobileSidebarOpen ? (
+            <X className="h-5 w-5" />
+          ) : (
+            <Menu className="h-5 w-5" />
+          )}
+        </button>
 
-        <div className="flex-1 flex flex-col">
+        {/* Mobile Overlay */}
+        {isMobileSidebarOpen && (
+          <div
+            className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+            onClick={() => setIsMobileSidebarOpen(false)}
+          />
+        )}
+
+        {/* Sidebar - Hidden on mobile, slide-in when open */}
+        <div
+          className={`
+          fixed lg:relative lg:translate-x-0 z-40 transition-transform duration-300 ease-in-out
+          ${
+            isMobileSidebarOpen
+              ? "translate-x-0"
+              : "-translate-x-full lg:translate-x-0"
+          }
+        `}
+        >
+          <Sidebar
+            onAddEvent={handleAddEvent}
+            currentDate={currentDate}
+            onDateChange={setCurrentDate}
+            events={events}
+            onLabelClick={handleLabelClick}
+          />
+        </div>
+
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col min-w-0">
           <CalendarHeader
             currentDate={currentDate}
             onDateChange={setCurrentDate}
@@ -103,26 +163,31 @@ const App = () => {
             onViewChange={setView}
           />
 
-          <div className="flex-1 p-6 overflow-auto">
-            {view === "month" ? (
-              <MonthView
-                currentDate={currentDate}
-                events={events}
-                onDateClick={handleDateClick}
-                onEventClick={handleEventClick}
-              />
-            ) : (
-              <WeekView
-                currentDate={currentDate}
-                events={events}
-                onDateClick={handleDateClick}
-                onEventClick={handleEventClick}
-              />
-            )}
+          <div className="flex-1 overflow-auto">
+            <div className="p-2 sm:p-4 lg:p-6">
+              {view === "month" ? (
+                <MonthView
+                  currentDate={currentDate}
+                  events={events}
+                  onDateClick={handleDateClick}
+                  onEventClick={handleEventClick}
+                />
+              ) : (
+                <WeekView
+                  currentDate={currentDate}
+                  events={events}
+                  onDateClick={handleDateClick}
+                  onEventClick={handleEventClick}
+                />
+              )}
+            </div>
           </div>
         </div>
 
-        <MiniSidebar />
+        {/* Mini Sidebar - Hidden on mobile and tablet */}
+        <div className="hidden xl:block">
+          <MiniSidebar />
+        </div>
       </div>
 
       <EventDialog

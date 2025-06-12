@@ -53,8 +53,8 @@ export interface SidebarItem {
 export type EventDialogProps = {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (data: Omit<Event, "id">) => void;
-  onDelete?: (id: string) => void;
+  onSave: (event: Event) => void;
+  onDelete?: (eventId: string) => void;
   event?: Event;
   selectedDate?: Date;
 };

@@ -15,7 +15,7 @@ const Dialog = ({
         className="fixed inset-0 bg-black bg-opacity-50"
         onClick={() => onOpenChange(false)}
       />
-      <div className="relative bg-white rounded-lg shadow-lg max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+      <div className="relative bg-white rounded-lg shadow-lg max-w-md w-full mx-4">
         {children}
       </div>
     </div>

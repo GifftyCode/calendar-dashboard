@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { cn } from "../../utils/cn";
-import { Button } from "../../components/ui/Button";
+import Button from "../ui/Button";
 import Input from "../ui/input";
 import Dialog from "../ui/Dialog";
 import DialogHeader from "../ui/DialogHeader";
@@ -180,7 +180,8 @@ const EventDialog = ({
               {event && onDelete && (
                 <Button
                   type="button"
-                  variant="destructive"
+                  variant="outline"
+                  className="text-red-600 border-red-600 hover:bg-red-50"
                   onClick={() => {
                     onDelete(event.id);
                     onClose();
