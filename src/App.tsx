@@ -34,21 +34,6 @@ const App = () => {
     { icon: Settings, label: "Transactions", hasSubmenu: true },
   ];
 
-  const scheduledEvents = [
-    {
-      id: "1",
-      title: "Team Meeting",
-      date: new Date(2025, 5, 15),
-      color: "bg-blue-500",
-    },
-    {
-      id: "2",
-      title: "Project Deadline",
-      date: new Date(2025, 5, 20),
-      color: "bg-red-500",
-    },
-  ];
-
   const handleAddEvent = () => {
     setSelectedEvent(undefined);
     setSelectedDate(currentDate);
@@ -108,9 +93,6 @@ const App = () => {
           onDateChange={setCurrentDate}
           events={events}
           onLabelClick={handleLabelClick}
-          view={view}
-          scheduledEvents={scheduledEvents}
-          onViewChange={setView}
         />
 
         <div className="flex-1 flex flex-col">

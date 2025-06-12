@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface Event {
   id: string;
   title: string;
@@ -48,13 +50,30 @@ export interface SidebarItem {
   hasSubmenu?: boolean;
 }
 
+export type EventDialogProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (data: Omit<Event, "id">) => void;
+  onDelete?: (id: string) => void;
+  event?: Event;
+  selectedDate?: Date;
+};
+
+// Unified SidebarProps interface
 export interface SidebarProps {
   onAddEvent: () => void;
   currentDate: Date;
   onDateChange: (date: Date) => void;
-  view: "month" | "week";
-  onViewChange: (view: "month" | "week") => void;
-  scheduledEvents?: ScheduledEvent[];
+  onLabelClick: (color: string) => void;
+  events: Event[];
+  view?: "month" | "week";
+  onViewChange?: (view: "month" | "week") => void;
+  scheduledEvents?: {
+    id: string;
+    title: string;
+    date: Date;
+    color: string;
+  }[];
 }
 
 export interface PageSidebarProps {
@@ -65,17 +84,31 @@ export interface PageSidebarProps {
 
 export interface DefaultLayoutProps {
   children: React.ReactNode;
-
   sidebarItems: {
     icon: React.ElementType;
     label: string;
     hasSubmenu?: boolean;
   }[];
 }
-export interface SidebarProps {
-  onAddEvent: () => void;
+
+// Additional props interfaces for other components
+export interface MonthViewProps {
+  currentDate: Date;
+  events: Event[];
+  onDateClick: (date: Date) => void;
+  onEventClick: (event: Event) => void;
+}
+
+export interface WeekViewProps {
+  currentDate: Date;
+  events: Event[];
+  onDateClick: (date: Date) => void;
+  onEventClick: (event: Event) => void;
+}
+
+export interface CalendarHeaderProps {
   currentDate: Date;
   onDateChange: (date: Date) => void;
-  onLabelClick: (color: string) => void;
-  events: Event[];
+  view: "month" | "week";
+  onViewChange: (view: "month" | "week") => void;
 }

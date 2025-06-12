@@ -1,13 +1,24 @@
 import { useState, useEffect } from "react";
 import { cn } from "../../utils/cn";
 import Button from "../ui/Button";
-import Input from "../ui/Input";
+import Input from "../ui/input";
 import Dialog from "../ui/Dialog";
 import DialogHeader from "../ui/DialogHeader";
 import DialogTitle from "../ui/DialogTitle";
 import DialogContent from "../ui/DialogContent";
 import { X, Trash2 } from "lucide-react";
 import type { EventDialogProps } from "../../types";
+
+type CalendarEvent = {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  description?: string;
+  location?: string;
+  attendees?: string[];
+  color: string;
+};
 
 const EventDialog = ({
   isOpen,
@@ -48,7 +59,8 @@ const EventDialog = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    const eventId = event?.id || crypto.randomUUID();
+    onSave({ ...formData, id: eventId } as CalendarEvent);
     onClose();
   };
 

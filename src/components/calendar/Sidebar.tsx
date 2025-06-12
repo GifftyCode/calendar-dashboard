@@ -1,4 +1,4 @@
-import Button from "../../components/ui/Button";
+import Button from "../ui/Button";
 import MiniCalendar from "./MiniCalendar";
 import { Plus } from "lucide-react";
 import type { Event } from "../../types";
