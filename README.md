@@ -24,36 +24,27 @@ This calendar application allows users to:
 - **Collapsible sidebar** for more screen space when needed
 - **Time-based event display** - Events show both date and time information
 
-## Setup Instructions
-
-### Prerequisites
-
-- Node.js (version 14 or higher)
-- npm or yarn package manager
-
 ### Installation
 
 1. **Clone or download the project files**
 
    ```bash
-   git clone [your-repo-url]
-   cd calendar-app
+   git clone [https://github.com/GifftyCode/calendar-dashboard.git]
+   cd calendar-dashboard
    ```
 
 2. **Install dependencies**
 
    ```bash
    npm install
-   # or
-   yarn install
+
    ```
 
 3. **Start the development server**
 
    ```bash
-   npm start
-   # or
-   yarn start
+   npm run dev
+
    ```
 
 4. **Open your browser**

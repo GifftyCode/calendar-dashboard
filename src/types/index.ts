@@ -59,7 +59,6 @@ export type EventDialogProps = {
   selectedDate?: Date;
 };
 
-// Unified SidebarProps interface
 export interface SidebarProps {
   onAddEvent: () => void;
   currentDate: Date;
@@ -91,7 +90,6 @@ export interface DefaultLayoutProps {
   }[];
 }
 
-// Additional props interfaces for other components
 export interface MonthViewProps {
   currentDate: Date;
   events: Event[];

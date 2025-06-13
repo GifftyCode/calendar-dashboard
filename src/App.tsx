@@ -20,7 +20,6 @@ const App = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
-  // Load events from localStorage on component mount
   useEffect(() => {
     try {
       const savedEvents = localStorage.getItem(STORAGE_KEY);
@@ -33,7 +32,6 @@ const App = () => {
     }
   }, []);
 
-  // Save events to localStorage whenever events state changes
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
@@ -114,7 +112,6 @@ const App = () => {
   return (
     <DefaultLayout sidebarItems={sidebarItems}>
       <div className="flex h-screen bg-gray-50 overflow-hidden">
-        {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
           className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-black text-white rounded-lg shadow-lg"
@@ -126,7 +123,6 @@ const App = () => {
           )}
         </button>
 
-        {/* Mobile Overlay */}
         {isMobileSidebarOpen && (
           <div
             className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
@@ -134,7 +130,6 @@ const App = () => {
           />
         )}
 
-        {/* Sidebar - Hidden on mobile, slide-in when open */}
         <div
           className={`
           fixed lg:relative lg:translate-x-0 z-40 transition-transform duration-300 ease-in-out
@@ -154,7 +149,6 @@ const App = () => {
           />
         </div>
 
-        {/* Main Content Area */}
         <div className="flex-1 flex flex-col min-w-0">
           <CalendarHeader
             currentDate={currentDate}
@@ -184,7 +178,6 @@ const App = () => {
           </div>
         </div>
 
-        {/* Mini Sidebar - Hidden on mobile and tablet */}
         <div className="hidden xl:block">
           <MiniSidebar />
         </div>

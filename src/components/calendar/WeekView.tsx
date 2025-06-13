@@ -38,18 +38,16 @@ const WeekView = ({
 
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  // Generate time slots (show fewer on mobile)
   const timeSlots = [];
-  const startHour = isMobile ? 8 : 0; // Start at 8 AM on mobile
-  const endHour = isMobile ? 20 : 24; // End at 8 PM on mobile
-  const interval = isMobile ? 2 : 1; // 2-hour intervals on mobile
+  const startHour = isMobile ? 8 : 0;
+  const endHour = isMobile ? 20 : 24;
+  const interval = isMobile ? 2 : 1;
 
   for (let hour = startHour; hour < endHour; hour += interval) {
     timeSlots.push(hour);
   }
 
   if (isMobile) {
-    // Mobile: Show as a list view
     return (
       <div className="bg-white rounded-lg overflow-hidden shadow-sm">
         <div className="space-y-4 p-4">
@@ -129,10 +127,8 @@ const WeekView = ({
     );
   }
 
-  // Desktop/Tablet: Show as traditional week grid
   return (
     <div className="bg-white rounded-lg overflow-hidden shadow-sm">
-      {/* Header */}
       <div className="grid grid-cols-8 border-b">
         <div className="p-2 sm:p-4 text-xs sm:text-sm font-medium text-gray-500">
           Time
@@ -155,10 +151,6 @@ const WeekView = ({
           </div>
         ))}
       </div>
-
-      {/* Time Grid */}
-
-      {/* Time Grid */}
 
       <div className="grid grid-cols-8 divide-x divide-gray-200">
         <div className="space-y-4 p-4">
